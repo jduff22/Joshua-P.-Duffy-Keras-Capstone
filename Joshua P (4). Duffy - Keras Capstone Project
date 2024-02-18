@@ -1,0 +1,529 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "8cc6b2cd",
+   "metadata": {},
+   "source": [
+    "# Download Data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "cfa6d336",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import requests\n",
+    "import io\n",
+    "import zipfile\n",
+    "from pathlib import Path"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "52a1785e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: requests in ./anaconda3/lib/python3.11/site-packages (2.31.0)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in ./anaconda3/lib/python3.11/site-packages (from requests) (2.0.4)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in ./anaconda3/lib/python3.11/site-packages (from requests) (3.4)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in ./anaconda3/lib/python3.11/site-packages (from requests) (1.26.16)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in ./anaconda3/lib/python3.11/site-packages (from requests) (2023.7.22)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install requests"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "3b306aba",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import requests\n",
+    "\n",
+    "url = 'https://s3-api.us-geo.objectstorage.softlayer.net/cf-courses-data/CognitiveClass/DL0321EN/data/concrete_data_week4.zip'\n",
+    "r = requests.get(url)\n",
+    "\n",
+    "# You can specify a relative path here if you're saving in the current directory\n",
+    "with open('concrete_data_week4.zip', 'wb') as f:\n",
+    "    f.write(r.content)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "2b9d218f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: tensorflow in ./anaconda3/lib/python3.11/site-packages (2.15.0)\n",
+      "Requirement already satisfied: absl-py>=1.0.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (2.1.0)\n",
+      "Requirement already satisfied: astunparse>=1.6.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (1.6.3)\n",
+      "Requirement already satisfied: flatbuffers>=23.5.26 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (23.5.26)\n",
+      "Requirement already satisfied: gast!=0.5.0,!=0.5.1,!=0.5.2,>=0.2.1 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (0.5.4)\n",
+      "Requirement already satisfied: google-pasta>=0.1.1 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (0.2.0)\n",
+      "Requirement already satisfied: h5py>=2.9.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (3.9.0)\n",
+      "Requirement already satisfied: libclang>=13.0.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (16.0.6)\n",
+      "Requirement already satisfied: ml-dtypes~=0.2.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (0.2.0)\n",
+      "Requirement already satisfied: numpy<2.0.0,>=1.23.5 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (1.24.3)\n",
+      "Requirement already satisfied: opt-einsum>=2.3.2 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (3.3.0)\n",
+      "Requirement already satisfied: packaging in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (23.1)\n",
+      "Requirement already satisfied: protobuf!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.20.3 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (4.25.3)\n",
+      "Requirement already satisfied: setuptools in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (68.0.0)\n",
+      "Requirement already satisfied: six>=1.12.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (1.16.0)\n",
+      "Requirement already satisfied: termcolor>=1.1.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (2.4.0)\n",
+      "Requirement already satisfied: typing-extensions>=3.6.6 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (4.7.1)\n",
+      "Requirement already satisfied: wrapt<1.15,>=1.11.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (1.14.1)\n",
+      "Requirement already satisfied: tensorflow-io-gcs-filesystem>=0.23.1 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (0.36.0)\n",
+      "Requirement already satisfied: grpcio<2.0,>=1.24.3 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (1.60.1)\n",
+      "Requirement already satisfied: tensorboard<2.16,>=2.15 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (2.15.2)\n",
+      "Requirement already satisfied: tensorflow-estimator<2.16,>=2.15.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (2.15.0)\n",
+      "Requirement already satisfied: keras<2.16,>=2.15.0 in ./anaconda3/lib/python3.11/site-packages (from tensorflow) (2.15.0)\n",
+      "Requirement already satisfied: wheel<1.0,>=0.23.0 in ./anaconda3/lib/python3.11/site-packages (from astunparse>=1.6.0->tensorflow) (0.38.4)\n",
+      "Requirement already satisfied: google-auth<3,>=1.6.3 in ./anaconda3/lib/python3.11/site-packages (from tensorboard<2.16,>=2.15->tensorflow) (2.28.0)\n",
+      "Requirement already satisfied: google-auth-oauthlib<2,>=0.5 in ./anaconda3/lib/python3.11/site-packages (from tensorboard<2.16,>=2.15->tensorflow) (1.2.0)\n",
+      "Requirement already satisfied: markdown>=2.6.8 in ./anaconda3/lib/python3.11/site-packages (from tensorboard<2.16,>=2.15->tensorflow) (3.4.1)\n",
+      "Requirement already satisfied: requests<3,>=2.21.0 in ./anaconda3/lib/python3.11/site-packages (from tensorboard<2.16,>=2.15->tensorflow) (2.31.0)\n",
+      "Requirement already satisfied: tensorboard-data-server<0.8.0,>=0.7.0 in ./anaconda3/lib/python3.11/site-packages (from tensorboard<2.16,>=2.15->tensorflow) (0.7.2)\n",
+      "Requirement already satisfied: werkzeug>=1.0.1 in ./anaconda3/lib/python3.11/site-packages (from tensorboard<2.16,>=2.15->tensorflow) (2.2.3)\n",
+      "Requirement already satisfied: cachetools<6.0,>=2.0.0 in ./anaconda3/lib/python3.11/site-packages (from google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow) (5.3.2)\n",
+      "Requirement already satisfied: pyasn1-modules>=0.2.1 in ./anaconda3/lib/python3.11/site-packages (from google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow) (0.2.8)\n",
+      "Requirement already satisfied: rsa<5,>=3.1.4 in ./anaconda3/lib/python3.11/site-packages (from google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow) (4.9)\n",
+      "Requirement already satisfied: requests-oauthlib>=0.7.0 in ./anaconda3/lib/python3.11/site-packages (from google-auth-oauthlib<2,>=0.5->tensorboard<2.16,>=2.15->tensorflow) (1.3.1)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in ./anaconda3/lib/python3.11/site-packages (from requests<3,>=2.21.0->tensorboard<2.16,>=2.15->tensorflow) (2.0.4)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in ./anaconda3/lib/python3.11/site-packages (from requests<3,>=2.21.0->tensorboard<2.16,>=2.15->tensorflow) (3.4)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in ./anaconda3/lib/python3.11/site-packages (from requests<3,>=2.21.0->tensorboard<2.16,>=2.15->tensorflow) (1.26.16)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in ./anaconda3/lib/python3.11/site-packages (from requests<3,>=2.21.0->tensorboard<2.16,>=2.15->tensorflow) (2023.7.22)\n",
+      "Requirement already satisfied: MarkupSafe>=2.1.1 in ./anaconda3/lib/python3.11/site-packages (from werkzeug>=1.0.1->tensorboard<2.16,>=2.15->tensorflow) (2.1.1)\n",
+      "Requirement already satisfied: pyasn1<0.5.0,>=0.4.6 in ./anaconda3/lib/python3.11/site-packages (from pyasn1-modules>=0.2.1->google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow) (0.4.8)\n",
+      "Requirement already satisfied: oauthlib>=3.0.0 in ./anaconda3/lib/python3.11/site-packages (from requests-oauthlib>=0.7.0->google-auth-oauthlib<2,>=0.5->tensorboard<2.16,>=2.15->tensorflow) (3.2.2)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install tensorflow"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "8c16ea20",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/Users/joshuapduffy\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os\n",
+    "print(os.getcwd())  # This will print the current working directory\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "724bc362",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['.Rhistory', '.config', 'Music', '.condarc', '.DS_Store', '.CFUserTextEncoding', '.xonshrc', 'Untitled.ipynb', '.zshrc', '.local', 'Pictures', '.ipython', 'Desktop', 'Library', '.matplotlib', '.oracle_jre_usage', '.spyder-py3', '__MACOSX', '.cups', '.bash_sessions', 'Public', '.tcshrc', '.wapi', '.anaconda', 'Movies', '.Rapp.history', 'concrete_data_week4', '.Trash', '.ipynb_checkpoints', '.jupyter', '.keras', 'Documents', 'concrete_data_week4.zip', '.rstudio-desktop', '.mono', '.bash_profile', 'anaconda3', 'Downloads', '.continuum', '.bash_history', '.conda']\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(os.listdir('.'))  # This will list the contents of the current working directory\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "b2940b5c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Extraction completed.\n"
+     ]
+    }
+   ],
+   "source": [
+    "import zipfile\n",
+    "\n",
+    "# Path to the zip file\n",
+    "zip_file_path = './concrete_data_week4.zip'\n",
+    "\n",
+    "# Extract the zip file\n",
+    "with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:\n",
+    "    zip_ref.extractall('.')  # Extract it to the current working directory\n",
+    "\n",
+    "print(\"Extraction completed.\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "4a626da1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['valid', '.DS_Store', 'test', 'train']\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(os.listdir('./concrete_data_week4'))  # This should list 'train' and 'validation' among others"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "408b3ce2",
+   "metadata": {},
+   "source": [
+    "# Part 1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "3f79bb5a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Found 30001 images belonging to 2 classes.\n",
+      "Found 9501 images belonging to 2 classes.\n",
+      "Epoch 1/3\n",
+      "300/300 [==============================] - 6316s 21s/step - loss: 0.0954 - accuracy: 0.9696 - val_loss: 0.0242 - val_accuracy: 0.9944\n",
+      "Epoch 2/3\n",
+      "300/300 [==============================] - 6249s 21s/step - loss: 0.0194 - accuracy: 0.9954 - val_loss: 0.0144 - val_accuracy: 0.9964\n",
+      "Epoch 3/3\n",
+      "300/300 [==============================] - 5714s 19s/step - loss: 0.0129 - accuracy: 0.9969 - val_loss: 0.0112 - val_accuracy: 0.9973\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<keras.src.callbacks.History at 0x14382ae50>"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input\n",
+    "from tensorflow.keras.preprocessing.image import ImageDataGenerator\n",
+    "from tensorflow.keras.models import Sequential\n",
+    "from tensorflow.keras.layers import Dense, GlobalAveragePooling2D\n",
+    "from tensorflow.keras.optimizers import Adam\n",
+    "\n",
+    "# Parameters\n",
+    "batch_size = 100\n",
+    "image_size = (160, 160)  # Reduced image size for faster processing\n",
+    "\n",
+    "# Data Generators with optimization\n",
+    "train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)\n",
+    "train_generator = train_datagen.flow_from_directory(\n",
+    "    './concrete_data_week4/train',\n",
+    "    target_size=image_size,\n",
+    "    batch_size=batch_size,\n",
+    "    class_mode='categorical'\n",
+    ")\n",
+    "\n",
+    "validation_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)\n",
+    "validation_generator = validation_datagen.flow_from_directory(\n",
+    "    './concrete_data_week4/valid',\n",
+    "    target_size=image_size,\n",
+    "    batch_size=batch_size,\n",
+    "    class_mode='categorical'\n",
+    ")\n",
+    "\n",
+    "# VGG16 as a feature extractor\n",
+    "base_model = VGG16(include_top=False, weights='imagenet', input_shape=(160, 160, 3))\n",
+    "base_model.trainable = False  # Freeze VGG16\n",
+    "\n",
+    "# Sequential Model with simplified top layers\n",
+    "model = Sequential([\n",
+    "    base_model,\n",
+    "    GlobalAveragePooling2D(),\n",
+    "    Dense(2, activation='softmax')  # Assuming 2 classes, simplify to adjust\n",
+    "])\n",
+    "\n",
+    "# Compile the model\n",
+    "model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=['accuracy'])\n",
+    "\n",
+    "# Fit the model with reduced epochs for quick iteration\n",
+    "model.fit(\n",
+    "    train_generator,\n",
+    "    steps_per_epoch=train_generator.samples // batch_size,\n",
+    "    validation_data=validation_generator,\n",
+    "    validation_steps=validation_generator.samples // batch_size,\n",
+    "    epochs=3  # Reduced for faster iteration\n",
+    ")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d1f62b60",
+   "metadata": {},
+   "source": [
+    "# Part 2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "aabe1ade",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/resnet/resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5\n",
+      "94765736/94765736 [==============================] - 5s 0us/step\n",
+      "INFO:tensorflow:Assets written to: /Users/joshuapduffy/models/resnet50_model/assets\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "INFO:tensorflow:Assets written to: /Users/joshuapduffy/models/resnet50_model/assets\n"
+     ]
+    }
+   ],
+   "source": [
+    "from tensorflow.keras.applications import ResNet50\n",
+    "from tensorflow.keras.models import Model\n",
+    "from tensorflow.keras.layers import Dense, GlobalAveragePooling2D\n",
+    "from tensorflow.keras.optimizers import Adam\n",
+    "\n",
+    "# Load the ResNet50 base model, excluding the top (classification) layer\n",
+    "base_model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))\n",
+    "\n",
+    "# Freeze the layers of the base model\n",
+    "for layer in base_model.layers:\n",
+    "    layer.trainable = False\n",
+    "\n",
+    "# Add new top layers for your classification task\n",
+    "x = base_model.output\n",
+    "x = GlobalAveragePooling2D()(x)\n",
+    "# Adjust the Dense layer according to your number of classes; using 2 as an example\n",
+    "predictions = Dense(2, activation='softmax')(x)\n",
+    "\n",
+    "# Define the model\n",
+    "resnet50_model = Model(inputs=base_model.input, outputs=predictions)\n",
+    "\n",
+    "# Compile the model\n",
+    "resnet50_model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=['accuracy'])\n",
+    "\n",
+    "# Assume `train_generator` and `validation_generator` are already defined using ImageDataGenerator\n",
+    "# Fit the model\n",
+    "# resnet50_model.fit(train_generator, validation_data=validation_generator, epochs=5)\n",
+    "\n",
+    "# Save the model\n",
+    "resnet50_model.save('/Users/joshuapduffy/models/resnet50_model')\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "2d28798b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from tensorflow.keras.models import load_model\n",
+    "from tensorflow.keras.preprocessing.image import ImageDataGenerator\n",
+    "from tensorflow.keras.applications.vgg16 import preprocess_input as vgg16_preprocess_input\n",
+    "from tensorflow.keras.applications.resnet50 import preprocess_input as resnet50_preprocess_input\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "7e923661",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Assuming you've saved the models in the specified directory\n",
+    "vgg16_model_path = '/Users/joshuapduffy/models/vgg16_model'\n",
+    "resnet50_model_path = '/Users/joshuapduffy/models/resnet50_model'\n",
+    "\n",
+    "vgg16_model = load_model(vgg16_model_path)\n",
+    "resnet50_model = load_model(resnet50_model_path)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "082aae59",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Found 500 images belonging to 2 classes.\n"
+     ]
+    }
+   ],
+   "source": [
+    "test_datagen = ImageDataGenerator(preprocessing_function=resnet50_preprocess_input)\n",
+    "\n",
+    "test_generator = test_datagen.flow_from_directory(\n",
+    "    '/Users/joshuapduffy/concrete_data_week4/test',  # Update to your test data path\n",
+    "    target_size=(224, 224),\n",
+    "    batch_size=100,\n",
+    "    class_mode='categorical',\n",
+    "    shuffle=False\n",
+    ")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "755e3ce5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "5/5 [==============================] - 156s 30s/step - loss: 0.0160 - accuracy: 0.9980\n",
+      "VGG16 Model - Loss: 0.015971694141626358, Accuracy: 0.9980000257492065\n",
+      "5/5 [==============================] - 55s 11s/step - loss: 0.9226 - accuracy: 0.4040\n",
+      "ResNet50 Model - Loss: 0.922615110874176, Accuracy: 0.40400001406669617\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Evaluate the VGG16 model\n",
+    "vgg16_evaluation = vgg16_model.evaluate(test_generator)\n",
+    "print(f\"VGG16 Model - Loss: {vgg16_evaluation[0]}, Accuracy: {vgg16_evaluation[1]}\")\n",
+    "\n",
+    "# Evaluate the ResNet50 model\n",
+    "resnet50_evaluation = resnet50_model.evaluate(test_generator)\n",
+    "print(f\"ResNet50 Model - Loss: {resnet50_evaluation[0]}, Accuracy: {resnet50_evaluation[1]}\")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "beb918ce",
+   "metadata": {},
+   "source": [
+    "# Part 3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "0684cd94",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "5/5 [==============================] - 57s 11s/step\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Assuming 'resnet50_model' or 'vgg16_model' is your model and 'test_generator' is already defined\n",
+    "predictions = resnet50_model.predict(test_generator, steps=len(test_generator))\n",
+    "\n",
+    "# Convert predictions to class indices\n",
+    "predicted_classes = predictions.argmax(axis=-1)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "57a875a2",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Image 1: positive\n",
+      "Image 2: positive\n",
+      "Image 3: negative\n",
+      "Image 4: negative\n",
+      "Image 5: negative\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Assuming class indices 0 and 1 correspond to 'Negative' and 'Positive' respectively\n",
+    "class_labels = {v: k for k, v in test_generator.class_indices.items()}\n",
+    "\n",
+    "# Print the class predictions for the first five images\n",
+    "for i in range(5):\n",
+    "    class_prediction = class_labels[predicted_classes[i]]\n",
+    "    print(f\"Image {i+1}: {class_prediction}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7f1c3018",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
